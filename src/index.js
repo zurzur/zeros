@@ -1,14 +1,15 @@
 module.exports = function getZerosCount(number, base) {
+	// common solution for zeros and advanced-zeros tasks
 let primeMultipliers = {};
-!base ? base = 10 : base;
-
+base ? base : base = 10;
 let i = base;
+let n = number;
+
 if (i%2 === 0) primeMultipliers[2] = 0;
 while (i%2===0) {
-	i = i/2;
-	primeMultipliers[2] ++;
+i = i/2;
+primeMultipliers[2] ++;
 }
-
 let j = 3;
 for (j; j <= i; j +=2) {
 	if (i%j === 0) primeMultipliers[j] = 0;
@@ -18,25 +19,28 @@ for (j; j <= i; j +=2) {
 	}
 }
 
-let pow = base;
-let multiplier = 0;
-
+let zeros;
+let counter; 
+let step = 0;
 for (key in primeMultipliers){
-	if (/*primeMultipliers[key] <= pow && */key > multiplier) {
-		pow = primeMultipliers[key];
-		multiplier = key;
+	n = number;
+	counter = 0;
+
+	while (n) {
+		n = Math.floor(n/+key);
+		counter += n;
 	}
+
+	counter = Math.floor(counter/primeMultipliers[key]);
+	step++;
+	if (step ===  1) zeros = counter;
+	if (zeros > counter) zeros = counter;
+
 }
 
-let counter = 0;
-
-while (number) {
-	number = Math.floor(number/multiplier);
-	counter += number;
+return zeros;
 }
 
-return counter/pow|0;//""+counter+" "+pow+" "+multiplier+" "+primeMultipliers;
-}
 
 
 /*
